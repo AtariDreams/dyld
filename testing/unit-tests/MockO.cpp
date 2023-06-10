@@ -103,7 +103,7 @@ MockO::MockO(uint32_t filetype, const char* archName, Platform platform, const c
 
     // make main executable dynamic by default
     if ( filetype == MH_EXECUTE )
-        _dynamicLinker.push_back("/usr/lib/dyld");
+        _dynamicLinker.emplace_back("/usr/lib/dyld");
 
     // all binaries link with libSystem by default
     if ( _dependents.empty() )
@@ -163,12 +163,12 @@ void MockO::customizeAddDependentDylib(const char* path, bool isWeak, bool isUpw
 
 void MockO::customizeAddDyldEnvVar(const char* envVar)
 {
-    _dyldEnvVars.push_back(envVar);
+    _dyldEnvVars.emplace_back(envVar);
 }
 
 void MockO::customizeAddRPath(const char* path)
 {
-    _rpaths.push_back(path);
+    _rpaths.emplace_back(path);
 }
 
 MockO::SectInfo* MockO::findSection(const char* segName, const char* sectionName)

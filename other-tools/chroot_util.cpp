@@ -178,7 +178,7 @@ int main(int argc, const char * argv[]) {
             } else if (strcmp(arg, "-fallback") == 0) {
                 fallback = argv[++i];
             } else if (strcmp(arg, "-add_file") == 0) {
-                binaries.push_back(argv[++i]);
+                binaries.emplace_back(argv[++i]);
             } else {
                 fprintf(stderr, "unknown option: %s\n", arg);
                 exit(-1);

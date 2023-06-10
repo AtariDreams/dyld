@@ -81,7 +81,7 @@ struct KernelCollectionBuilder {
         diag.error(format, list);
         va_end(list);
 
-        errorStorage.push_back(diag.errorMessage());
+        errorStorage.emplace_back(diag.errorMessage());
         errors.push_back(errorStorage.back().data());
     }
 
@@ -98,7 +98,7 @@ struct KernelCollectionBuilder {
             error("Could not convert to ASCII");
             return nullptr;
         }
-        duplicatedStrings.push_back(buffer);
+        duplicatedStrings.emplace_back(buffer);
         return duplicatedStrings.back().c_str();
     }
 
@@ -240,7 +240,7 @@ bool addKextDataFile(struct KernelCollectionBuilder* builder, const KextFileData
             return false;
         }
         CFStringRef stringRef = (CFStringRef)elementRef;
-        input.dylibDeps.push_back(builder->strdup(stringRef));
+        input.dylibDeps.emplace_back(builder->strdup(stringRef));
     }
     input.infoPlist             = fileData->plist;
     input.errors                = &builder->inputFileDiags.emplace_back();

@@ -163,7 +163,7 @@ void cache_builder::Stats::add(const char* format, ...)
     vasprintf(&output_string, format, list);
     va_end(list);
 
-    this->stats.push_back(output_string);
+    this->stats.emplace_back(output_string);
 
     free(output_string);
 }

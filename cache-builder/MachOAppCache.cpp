@@ -72,7 +72,7 @@ void MachOAppCache::forEachPrelinkInfoLibrary(Diagnostics& diags,
              return (const char*)nullptr;
          }
          buffer[len] = '\0';
-         nonASCIIStrings.push_back(buffer);
+         nonASCIIStrings.emplace_back(buffer);
          return nonASCIIStrings.back().c_str();
      };
 

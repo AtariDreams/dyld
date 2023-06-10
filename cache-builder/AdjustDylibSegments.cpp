@@ -1230,7 +1230,7 @@ void Adjustor<P>::adjustReferencesUsingInfoV2(cache_builder::ASLR_Tracker& aslrT
     sectionMappedAddress.push_back((uint8_t*)_mappingInfo[0].dstSegment);
     sectionSlides.push_back(_segSlides[0]);
     sectionNewAddress.push_back(_mappingInfo[0].dstCacheUnslidAddress);
-    sectionNames.push_back("mach_header");
+    sectionNames.emplace_back("mach_header");
     coalescedSectionOriginalVMAddrs.push_back(0);
     coalescedSectionData.push_back(nullptr);
 

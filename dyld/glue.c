@@ -280,7 +280,7 @@ void __cxa_atexit()
 // The stack protector routines in lib.c bring in too much stuff, so
 // make our own custom ones.
 //
-long __stack_chk_guard = 0;
+unsigned long __stack_chk_guard = 0;
 
 extern void __guard_setup(const char* apple[]);
 void __guard_setup(const char* apple[])
@@ -306,7 +306,7 @@ void __guard_setup(const char* apple[])
 	}
 #if !TARGET_OS_SIMULATOR
 #if __LP64__
-	__stack_chk_guard = ((long)arc4random() << 32) | arc4random();
+	__stack_chk_guard = ((unsigned long)arc4random() << 32) | arc4random();
 #else
 	__stack_chk_guard = arc4random();
 #endif

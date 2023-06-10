@@ -1138,7 +1138,7 @@ createKernelCollectionForArch(const CreateKernelCollectionOptions& options, cons
 
         // Look for bundles in the extensions directory and any PlugIns directories its kext's contain
         __block std::list<std::pair<std::string, bool>> kextDirectoriesToProcess;
-        kextDirectoriesToProcess.push_back({ options.extensionsPath, true });
+        kextDirectoriesToProcess.emplace_back( options.extensionsPath, true );
         while ( !kextDirectoriesToProcess.empty() ) {
             std::string kextDir = kextDirectoriesToProcess.front().first;
             bool lookForPlugins = kextDirectoriesToProcess.front().second;
@@ -1157,7 +1157,7 @@ createKernelCollectionForArch(const CreateKernelCollectionOptions& options, cons
                         CFURLRef pluginsAbsoluteURL = CFURLCopyAbsoluteURL(pluginsRelativeURL);
                         CFStringRef pluginString = CFURLCopyFileSystemPath(pluginsAbsoluteURL, kCFURLPOSIXPathStyle);
                         const char* pluginPath = CFStringGetCStringPtr(pluginString, kCFStringEncodingASCII);
-                        kextDirectoriesToProcess.push_back({ pluginPath, false });
+                        kextDirectoriesToProcess.emplace_back( pluginPath, false );
 
                         CFRelease(pluginString);
                         CFRelease(pluginsAbsoluteURL);
@@ -1212,7 +1212,7 @@ createKernelCollectionForArch(const CreateKernelCollectionOptions& options, cons
                         BundleData* bundleData = (BundleData*)context;
                         CFStringRef keyRef = (CFStringRef)key;
                         //CFStringRef valueRef = (CFStringRef)value;
-                        bundleData->dependencies.push_back(CFStringGetCStringPtr(keyRef, kCFStringEncodingASCII));
+                        bundleData->dependencies.emplace_back(CFStringGetCStringPtr(keyRef, kCFStringEncodingASCII));
                     }, &bundleData);
                 }
 
@@ -1267,7 +1267,7 @@ createKernelCollectionForArch(const CreateKernelCollectionOptions& options, cons
                     return (const char*)nullptr;
                 }
                 buffer[len] = '\0';
-                nonASCIIStrings.push_back(buffer);
+                nonASCIIStrings.emplace_back(buffer);
                 return nonASCIIStrings.back().c_str();
             };
 
@@ -1699,7 +1699,7 @@ createKernelCollectionForArch(const CreateKernelCollectionOptions& options, cons
                     Node* errorsNode = (Node*)context;
                     CFStringRef valueRef = (CFStringRef)value;
 
-                    errorsNode->array.push_back(Node(CFStringGetCStringPtr(valueRef, kCFStringEncodingASCII)));
+                    errorsNode->array.emplace_back(CFStringGetCStringPtr(valueRef, kCFStringEncodingASCII));
                 }, &errorsNode);
 
                 bundleNode.map["errors"] = errorsNode;
@@ -1717,7 +1717,7 @@ createKernelCollectionForArch(const CreateKernelCollectionOptions& options, cons
         } else {
             Node rootNode;
             for (uint64_t i = 0; i != errorCount; ++i) {
-                rootNode.array.push_back(Node(errors[i]));
+                rootNode.array.emplace_back(errors[i]);
             }
             printJSON(rootNode);
         }

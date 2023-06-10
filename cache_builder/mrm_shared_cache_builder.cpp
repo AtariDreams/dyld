@@ -174,7 +174,7 @@ struct MRMSharedCacheBuilder {
         diag.error(format, list);
         va_end(list);
 
-        errorStorage.push_back(diag.errorMessage());
+        errorStorage.emplace_back(diag.errorMessage());
         errors.push_back(errorStorage.back().data());
     }
 
@@ -186,7 +186,7 @@ struct MRMSharedCacheBuilder {
         diag.error(format, list);
         va_end(list);
 
-        warningsStorage.push_back(diag.errorMessage());
+        warningsStorage.emplace_back(diag.errorMessage());
     }
 };
 
@@ -297,7 +297,7 @@ bool addOnDiskFile(struct MRMSharedCacheBuilder* builder, const char* path, uint
         }
         Diagnostics diag;
         if (!builder->fileSystem.addFile(path, data, size, diag, fileFlags, inode, modTime)) {
-            builder->errorStorage.push_back(diag.errorMessage());
+            builder->errorStorage.emplace_back(diag.errorMessage());
             builder->errors.push_back(builder->errorStorage.back().data());
             return;
         }
@@ -324,7 +324,7 @@ bool addSymlink(struct MRMSharedCacheBuilder* builder, const char* fromPath, con
         }
         Diagnostics diag;
         if (!builder->fileSystem.addSymlink(fromPath, toPath, diag)) {
-            builder->errorStorage.push_back(diag.errorMessage());
+            builder->errorStorage.emplace_back(diag.errorMessage());
             builder->errors.push_back(builder->errorStorage.back().data());
             return;
         }
@@ -624,7 +624,7 @@ static void runBuilders(struct MRMSharedCacheBuilder* builder)
 
         if ( error.hasError() ) {
             // First put the error in to a vector to own it
-            buildInstance.errorStrings.push_back(error.message());
+            buildInstance.errorStrings.emplace_back(error.message());
 
             // Then copy to a vector to reference the owner
             buildInstance.errors.reserve(buildInstance.errorStrings.size());
@@ -634,7 +634,7 @@ static void runBuilders(struct MRMSharedCacheBuilder* builder)
             // First put the warnings in to a vector to own them.
             if ( builder->options->verboseDiagnostics ) {
                 cacheBuilder->forEachWarning(^(const std::string_view &str) {
-                    buildInstance.warningStrings.push_back(std::string(str));
+                    buildInstance.warningStrings.emplace_back(str);
                 });
 
                 // Then copy to a vector to reference the owner
@@ -675,7 +675,7 @@ static void runBuilders(struct MRMSharedCacheBuilder* builder)
             // Only add warnings if the build was good
             // First put the warnings in to a vector to own them.
             cacheBuilder->forEachWarning(^(const std::string_view &str) {
-                buildInstance.warningStrings.push_back(std::string(str));
+                buildInstance.warningStrings.emplace_back(str);
             });
 
             // Then copy to a vector to reference the owner

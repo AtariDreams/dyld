@@ -52,12 +52,12 @@ class SortedStringPool
 public:
     // add a string and symbol table entry index to be updated later
     void add(uint32_t symbolIndex, const char* symbolName) {
-        _map[symbolName].push_back({ symbolIndex, false });
+        _map[symbolName].emplace_back( symbolIndex, false );
     }
 
     // add a string and symbol table entry index to be updated later
     void addIndirect(uint32_t symbolIndex, const char* symbolName) {
-        _map[symbolName].push_back({ symbolIndex, true });
+        _map[symbolName].emplace_back( symbolIndex, true );
     }
 
     // copy sorted strings to buffer and update all symbol's string offsets

@@ -1290,7 +1290,7 @@ void Adjustor<P>::adjustReferencesUsingInfoV2(const DylibSectionCoalescer* secti
     sectionMappedAddress.push_back((uint8_t*)_mappingInfo[0].cacheLocation);
     sectionSlides.push_back(_segSlides[0]);
     sectionNewAddress.push_back(_mappingInfo[0].cacheVMAddress.rawValue());
-    sectionNames.push_back("mach_header");
+    sectionNames.emplace_back("mach_header");
     coalescedSectionOriginalVMAddrs.push_back(0);
     coalescedSectionData.push_back(nullptr);
     aslrTrackers.push_back(nullptr);

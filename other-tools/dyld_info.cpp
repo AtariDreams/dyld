@@ -1230,7 +1230,7 @@ static void printSwiftProtocolConformances(const dyld3::MachOAnalyzer* ma,
 
     __block std::vector<std::string> chainedFixupTargets;
     ma->forEachChainedFixupTarget(diag, ^(int libOrdinal, const char *symbolName, uint64_t addend, bool weakImport, bool &stop) {
-        chainedFixupTargets.push_back(symbolName);
+        chainedFixupTargets.emplace_back(symbolName);
     });
 
     printf("    -swift-proto:\n");
@@ -1581,7 +1581,7 @@ int main(int argc, const char* argv[])
             return 1;
         }
         else {
-            files.push_back(arg);
+            files.emplace_back(arg);
         }
     }
 
